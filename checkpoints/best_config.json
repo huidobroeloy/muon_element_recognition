@@ -1,0 +1,9 @@
+{
+  "lr": 0.002,
+  "weight_decay": 0.0002,
+  "width": 16,
+  "embed": 192,
+  "hidden": 384,
+  "dropout": 0.15,
+  "w_comp": 3.0
+}

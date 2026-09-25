@@ -1,0 +1,86 @@
+[
+  {
+    "number": 0,
+    "value": 0.778614505864063,
+    "state": "TrialState.COMPLETE",
+    "lr": 0.002,
+    "weight_decay": 0.0002,
+    "width": 16,
+    "embed": 192,
+    "hidden": 384,
+    "dropout": 0.15,
+    "w_comp": 3.0
+  },
+  {
+    "number": 1,
+    "value": 0.7243609585316115,
+    "state": "TrialState.COMPLETE",
+    "lr": 0.0017692267954532756,
+    "weight_decay": 0.0002693883019285409,
+    "width": 12,
+    "embed": 192,
+    "hidden": 384,
+    "dropout": 0.2890988281503088,
+    "w_comp": 1.9878128664737196
+  },
+  {
+    "number": 2,
+    "value": 0.7596585824810861,
+    "state": "TrialState.COMPLETE",
+    "lr": 0.0030952450833870923,
+    "weight_decay": 0.0001142325415560838,
+    "width": 16,
+    "embed": 192,
+    "hidden": 384,
+    "dropout": 0.23344702528495515,
+    "w_comp": 4.753363653263731
+  },
+  {
+    "number": 3,
+    "value": 0.6795995589876356,
+    "state": "TrialState.PRUNED",
+    "lr": 0.004759796075269917,
+    "weight_decay": 0.00039656750817710094,
+    "width": 16,
+    "embed": 192,
+    "hidden": 384,
+    "dropout": 0.15655449652502149,
+    "w_comp": 2.1021790666055415
+  },
+  {
+    "number": 4,
+    "value": 0.31009044320273665,
+    "state": "TrialState.PRUNED",
+    "lr": 0.0009194447057627079,
+    "weight_decay": 0.0003535634629148812,
+    "width": 16,
+    "embed": 192,
+    "hidden": 384,
+    "dropout": 0.2831244235543872,
+    "w_comp": 3.3928082718340193
+  },
+  {
+    "number": 5,
+    "value": 0.3530886750774861,
+    "state": "TrialState.PRUNED",
+    "lr": 0.0011441366694389214,
+    "weight_decay": 7.4827960376208e-05,
+    "width": 12,
+    "embed": 192,
+    "hidden": 256,
+    "dropout": 0.09462850527725515,
+    "w_comp": 1.9187658979520874
+  },
+  {
+    "number": 6,
+    "value": 0.4058238738837091,
+    "state": "TrialState.PRUNED",
+    "lr": 0.0018585180132685553,
+    "weight_decay": 7.537078298264379e-05,
+    "width": 12,
+    "embed": 128,
+    "hidden": 256,
+    "dropout": 0.13989323185689187,
+    "w_comp": 1.549530325165932
+  }
+]

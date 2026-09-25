@@ -1,0 +1,11 @@
+# Python environment and caches
+.venv/
+__pycache__/
+*.pyc
+
+# Generated data (rebuild with physics.py / simulate.py / dataset.py; ~1.6 GB)
+data/
+
+# Smoke-test leftovers
+results/_smoke/
+checkpoints/_smoke.pt
