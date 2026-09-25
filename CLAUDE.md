@@ -5,11 +5,39 @@ README.md has the science, results and limitations; this file is the working not
 
 ## Environment
 
-- Windows 10, dual-core i3 (4 threads), 7.8 GB RAM, **no GPU**. Everything is CPU-bound; budget time accordingly.
-- Python 3.12 venv at `.venv/` (not the system Python — there is none on PATH). Run scripts from `src/`:
-  `..\.venv\Scripts\python.exe train.py ...` (PowerShell) — all paths in scripts are relative to `src/`.
-- Git/gh were installed via winget; open a new shell if `git`/`gh` aren't found. Remote: private repo
-  `huidobroeloy/muon_element_recognition`, branch `main`.
+The project is worked on from more than one machine (Windows 10 laptop, Ubuntu). Check which one you are on
+before running commands; don't assume paths, shells or hardware.
+
+- Remote: private repo `huidobroeloy/muon_element_recognition`, branch `main`. `git pull` before starting,
+  push when done, so the machines stay in sync.
+- Python 3.12, virtual environment in `.venv/` at the repo root (gitignored — create it on each machine).
+- **Run every script from `src/`**: all paths inside the scripts (`../data`, `../checkpoints`, `../results`)
+  are relative to it.
+
+| | Ubuntu | Windows (PowerShell) |
+|---|---|---|
+| prerequisites | `sudo apt install python3 python3-venv python3-pip git` (+ `gh` for GitHub) | Python 3.12, Git, gh via winget |
+| create venv | `python3 -m venv .venv` | `py -3.12 -m venv .venv` |
+| python | `../.venv/bin/python` | `..\.venv\Scripts\python.exe` |
+| PyTorch, CPU only | `pip install torch --index-url https://download.pytorch.org/whl/cpu` | same |
+| PyTorch, NVIDIA GPU | `pip install torch` (default CUDA wheel, ~2 GB) | see pytorch.org |
+| other deps | `pip install -r requirements.txt` | same |
+
+After a fresh clone on any machine:
+1. Create the venv and install the dependencies (table above).
+2. `data/dirac_levels.json`, `data/cascade_lines.pkl` and `checkpoints/best.pt` come from git, so inference,
+   `evaluate.py` and `case_studies.py` need no retraining.
+3. The training/validation/test spectra (`data/train|val|test`, 1.6 GB) are **not** in git: regenerate them
+   with `dataset.py` (step 3 below) before `train.py`, `optimize.py` or `evaluate.py`.
+
+Hardware notes:
+- Timings below were measured on the Windows laptop: dual-core i3 (4 threads), 7.8 GB RAM, no GPU.
+  Scale them to the current machine; check with `nproc` / `free -h` on Ubuntu.
+- `--workers` (dataset.py, default = cores − 1) and `--threads` (train.py, default 3) were tuned for 4 threads;
+  raise them on a bigger machine.
+- **Training is CPU-only today**: `train.py` never moves the model to CUDA even if a GPU exists (see To do).
+- Linux uses `fork` for worker processes, so the Windows pickling crash below doesn't occur there, but the
+  lazy memmap fix is harmless and must stay for Windows.
 
 ## Pipeline order and cost
 
@@ -54,7 +82,8 @@ Regenerate datasets after any change to `simulate.py`, `materials.py`, `transpor
   the start value. Use the smooth per-muon version (`transport.object_stop_depths`).
 - Peak-fit covariance can be singular for absent elements → NaN errors; guarded in `baseline.quantify` and `case_studies._clean`.
 - Au capture γ at 333.0 keV sits between the Cu 3d-2p lines (330.9/336.5) — a real confounder for Cu in gold coins.
-- Don't run heavy scripts while training: on this CPU they double epoch times.
+- Don't run heavy scripts while training: on the 4-thread laptop they double epoch times.
+- Line endings: `.gitattributes` forces LF for `.py`/`.md`; Git on Windows warns about CRLF, which is harmless.
 
 ## Current results (simulated data only)
 
@@ -67,6 +96,8 @@ Regenerate datasets after any change to `simulate.py`, `materials.py`, `transpor
 
 ## Still to do
 
+- [ ] GPU support: pick `cuda` when available in `train.py` / `predict` / `inference.py` (model + batches `.to(device)`),
+  and allow larger width/batch there. Needed before training on a GPU machine gets any faster.
 - [ ] Hybrid quantification: NN identifies elements → multi-line physics template fit quantifies (likely beats both).
 - [ ] Fix NN Ag bias in debased gold coins (check calibration nonlinearity; `Analyzer.calibrate_with_standards` is only a per-element scale).
 - [ ] Rare trace elements (P, Co, Se, Cd, Ba, Pt, Bi) have F1 ≈ 0: add a trace-rich training population.
