@@ -4,7 +4,9 @@ __pycache__/
 *.pyc
 
 # Generated data (rebuild with physics.py / simulate.py / dataset.py; ~1.6 GB)
-data/
+data/*
+!data/dirac_levels.json
+!data/cascade_lines.pkl
 
 # Smoke-test leftovers
 results/_smoke/
